@@ -1,0 +1,26 @@
+# Built PDF: CI builds it and publishes it as a release
+*.pdf
+
+# LaTeX / Tectonic build files
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.xdv
+*.bbl
+*.blg
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# OS & editors
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
