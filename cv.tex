@@ -61,8 +61,11 @@
 % Inter pulls those together so far that some ATS parsers read a space ("17 .6").
 \newcommand{\nk}{\kern0pt\relax}
 
-% external link: accent, underlined, with a small north-east arrow
-\newcommand{\link}[2]{\href{#1}{\color{accent}\uline{#2}\kern0.6mm\scalebox{0.9}{↗}}}
+% external link: accent, underlined, with a small north-east arrow.
+% The arrow is drawn, not typed, so it doesn't end up glued to URLs in ATS text.
+\newcommand{\linkarrow}{\begin{tikzpicture}[baseline=-0.1em, line width=0.07em, line cap=round, line join=round]
+  \draw[accent] (0,0) -- (0.44em,0.44em) (0.1em,0.44em) -- (0.44em,0.44em) -- (0.44em,0.1em);\end{tikzpicture}}
+\newcommand{\link}[2]{\href{#1}{\color{accent}\uline{#2}\kern0.8mm\linkarrow}}
 % mailto / tel link: no arrow
 \newcommand{\plainlink}[2]{\href{#1}{\color{accent}\uline{#2}}}
 
@@ -106,7 +109,8 @@
 % bullets inside entries
 \setlist[itemize]{
   leftmargin=4mm, labelsep=2.2mm, topsep=1.2mm, itemsep=0.5mm, parsep=0pt, partopsep=0pt,
-  label={\color{muted}\fs{8}{9}\textbullet},
+  % drawn dot instead of a "•" character, so bullets add nothing to the ATS text
+  label={\tikz[baseline=-2.5pt]\fill[muted] (0,0) circle (1.1pt);},
   before={\fs{9.0}{13}}, after={\vspace{-1.2mm}},
 }
 
