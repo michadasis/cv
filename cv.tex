@@ -32,6 +32,7 @@
 \usepackage{graphicx}
 \usepackage{tikz}
 \usetikzlibrary{svg.path}
+\usepackage{xstring}
 \usepackage[most]{tcolorbox}
 \usepackage{enumitem}
 \usepackage[normalem]{ulem}
@@ -84,10 +85,16 @@
       {\includegraphics[width=9mm,height=9mm,keepaspectratio]{icons/#1}};
   \end{tikzpicture}}
 
-% section heading: letterspaced caps followed by a thin rule
+% section heading: letterspaced caps followed by a thin rule.
+% The 1.4pt letter spacing is applied with the PDF Tc (character spacing) operator,
+% like Chrome does, instead of fontspec's LetterSpace: parsers count Tc as part of
+% each glyph's width, so the heading extracts as "EDUCATION", not "E D U C A T I O N".
+% TeX doesn't see Tc, so the same width is added back with \hspace after the word.
 \newcommand{\cvsection}[1]{%
   \par\addvspace{5.4mm}%
-  {\fs{8.4}{10}\bfseries\color{accent}\addfontfeatures{LetterSpace=16.7}\MakeUppercase{#1}}%
+  {\fs{8.4}{10}\bfseries\addfontfeatures{Kerning=Off}\color{accent}\StrLen{#1}[\cvseclen]%
+   \special{pdf:literal direct 1.4 Tc}\MakeUppercase{#1}\special{pdf:literal direct 0 Tc}%
+   \hspace{\cvseclen\dimexpr 1.4bp\relax}}%
   \hspace{3mm}{\color{rulecol}\leaders\hrule height 3.1pt depth -2.6pt\hfill}\par
   \vspace{2.6mm}}
 
