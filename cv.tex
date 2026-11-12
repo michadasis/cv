@@ -89,15 +89,17 @@
   \end{tikzpicture}}
 
 % section heading: letterspaced caps followed by a thin rule.
-% The 1.4pt letter spacing is applied with the PDF Tc (character spacing) operator,
-% like Chrome does, instead of fontspec's LetterSpace: parsers count Tc as part of
-% each glyph's width, so the heading extracts as "EDUCATION", not "E D U C A T I O N".
+% Letter spacing is applied with the PDF Tc (character spacing) operator, like Chrome
+% does, instead of fontspec's LetterSpace, so pypdf/poppler read "EDUCATION".
+% It must stay below 10% of the font size (0.84bp at 8.4pt): above that, pdfminer
+% (used by many resume parsers) reads the gaps as spaces: "E D U C A T I O N".
 % TeX doesn't see Tc, so the same width is added back with \hspace after the word.
+\newcommand{\cvtrack}{0.7}
 \newcommand{\cvsection}[1]{%
   \par\addvspace{5.4mm}%
   {\fs{8.4}{10}\bfseries\addfontfeatures{Kerning=Off}\color{accent}\StrLen{#1}[\cvseclen]%
-   \special{pdf:literal direct 1.4 Tc}\MakeUppercase{#1}\special{pdf:literal direct 0 Tc}%
-   \hspace{\cvseclen\dimexpr 1.4bp\relax}}%
+   \special{pdf:literal direct \cvtrack\space Tc}\MakeUppercase{#1}\special{pdf:literal direct 0 Tc}%
+   \hspace{\cvseclen\dimexpr \cvtrack bp\relax}}%
   \hspace{3mm}{\color{rulecol}\leaders\hrule height 3.1pt depth -2.6pt\hfill}\par
   \vspace{2.6mm}}
 
