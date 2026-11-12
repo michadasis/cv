@@ -1,5 +1,9 @@
 # CV
 
+[![Build CV](https://github.com/michadasis/cv/actions/workflows/build.yml/badge.svg)](https://github.com/michadasis/cv/actions/workflows/build.yml)
+
+**[Download the latest PDF](https://github.com/michadasis/cv/releases/latest/download/Ioannis_Michadasis_CV.pdf)**
+
 `cv.tex` is the whole CV: layout, text and styles in one LaTeX file. It needs **XeLaTeX** (or Tectonic), because it loads the bundled fonts from `fonts/` with `fontspec`.
 
 ## Build
@@ -20,6 +24,16 @@ tectonic cv.tex
 This writes `cv.pdf`.
 
 Packages used: fontspec, xcolor, tikz (svg.path), tcolorbox, enumitem, ulem, xstring, fancyhdr, lastpage, hyperref, geometry, graphicx, calc.
+
+## CI / CD
+
+`.github/workflows/build.yml` runs on every push and pull request:
+
+1. builds `cv.pdf` with Tectonic
+2. runs `scripts/ats_check.py`, which fails the build if the PDF doesn't read cleanly as text
+3. uploads the PDF as a build artifact
+
+Pushes to `main` also publish it as a new release named `Ioannis_Michadasis_CV.pdf`, so the download link above always points to the newest version. Changes to this README alone don't trigger a build.
 
 ## ATS / text extraction
 
@@ -54,3 +68,5 @@ It also uses poppler's `pdftotext` when it's installed.
 - `cv.tex` - the CV
 - `icons/` - project and organisation logos, taken from each project's repo or site
 - `fonts/` - Inter (Regular, SemiBold, Bold) and Liberation Serif Bold (both SIL Open Font License), bundled so the PDF looks the same everywhere
+- `scripts/ats_check.py` - the text extraction check CI runs
+- `.github/workflows/build.yml` - build, check and release

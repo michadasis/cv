@@ -1,0 +1,84 @@
+name: Build CV
+
+# Builds the PDF and checks it reads cleanly for ATS parsers on every push and PR.
+# Pushes to main also publish it as the latest release, so this link always
+# points to the newest CV:
+# https://github.com/michadasis/cv/releases/latest/download/Ioannis_Michadasis_CV.pdf
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: ["README.md"]
+  pull_request:
+    paths-ignore: ["README.md"]
+  workflow_dispatch:
+
+env:
+  TECTONIC_VERSION: 0.15.0
+  PDF_NAME: Ioannis_Michadasis_CV.pdf
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache Tectonic packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/Tectonic
+          key: tectonic-${{ env.TECTONIC_VERSION }}-${{ hashFiles('cv.tex') }}
+          restore-keys: tectonic-${{ env.TECTONIC_VERSION }}-
+
+      - name: Install Tectonic
+        run: |
+          mkdir -p "$HOME/.local/bin"
+          curl -fsSL "https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%40${TECTONIC_VERSION}/tectonic-${TECTONIC_VERSION}-x86_64-unknown-linux-musl.tar.gz" \
+            | tar -xz -C "$HOME/.local/bin"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Build
+        run: tectonic -X compile cv.tex
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install ATS check tools
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+          pip install --quiet pypdf pdfminer.six
+
+      - name: ATS check
+        run: python scripts/ats_check.py cv.pdf
+
+      - run: mv cv.pdf "$PDF_NAME"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cv
+          path: ${{ env.PDF_NAME }}
+
+  release:
+    needs: build
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: cv
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          sha="${GITHUB_SHA::7}"
+          gh release create "cv-$(date -u +%Y-%m-%d)-$sha" "$PDF_NAME" \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
+            --title "CV, $(date -u +'%-d %B %Y')" \
+            --notes "Built from $sha: ${MESSAGE%%$'\n'*}" \
+            --latest
