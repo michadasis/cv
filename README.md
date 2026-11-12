@@ -19,7 +19,19 @@ tectonic cv.tex
 
 This writes `cv.pdf`.
 
-Packages used: fontspec, fontawesome5, xcolor, tikz, tcolorbox, enumitem, ulem, fancyhdr, lastpage, hyperref, geometry, graphicx, calc.
+Packages used: fontspec, xcolor, tikz (svg.path), tcolorbox, enumitem, ulem, xstring, fancyhdr, lastpage, hyperref, geometry, graphicx, calc.
+
+## ATS / text extraction
+
+The PDF is built so its text extracts cleanly (checked with pypdf, pdfminer and poppler's pdftotext):
+
+- Contact icons are drawn as vector shapes (`\iconmail` etc., Font Awesome Free paths), not font glyphs, so they add no stray characters to the extracted text.
+- Section headings are letterspaced with the PDF `Tc` operator, so they extract as `EXPERIENCE` rather than `E X P E R I E N C E`. The spacing (`\cvtrack`, 0.7bp) must stay under 0.84bp: above that, pdfminer, which many resume parsers use, reads the gaps as spaces.
+- The link arrows and bullet dots are drawn, not typed, so no `↗` or `•` characters end up in the extracted text.
+- Apostrophes stay straight (`'`), matching what people type in keyword searches. TeX's `--` shortcut is off, so type en dashes directly: `2025 – 2029`.
+- Inter kerns `7.` and `7,` so tightly that some parsers read a space (`17 .6`). Put `\nk` between them, as in `17\nk.6/20`.
+
+To check after editing: `pdftotext cv.pdf -` and make sure the output reads cleanly.
 
 ## Editing
 
@@ -28,7 +40,6 @@ Packages used: fontspec, fontawesome5, xcolor, tikz, tcolorbox, enumitem, ulem, 
 - `\link{url}{text}` makes an underlined accent link with the ↗ arrow; `\plainlink` is the same without the arrow (mail, phone). `\sep` is the `·` separator.
 - Colors are `\definecolor` lines near the top; `accent` is the blue.
 - Footer text is set in the `\fancyfoot` lines near the top (including the "Last updated" date).
-- Contact icons come from the `fontawesome5` package.
 - LaTeX does not clip overflow: if a page gets too long, content moves to a new page. Check that the PDF is still two pages after adding text.
 
 ## Files
