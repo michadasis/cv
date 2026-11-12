@@ -31,7 +31,14 @@ The PDF is built so its text extracts cleanly (checked with pypdf, pdfminer and 
 - Apostrophes stay straight (`'`), matching what people type in keyword searches. TeX's `--` shortcut is off, so type en dashes directly: `2025 – 2029`.
 - Inter kerns `7.` and `7,` so tightly that some parsers read a space (`17 .6`). Put `\nk` between them, as in `17\nk.6/20`.
 
-To check after editing: `pdftotext cv.pdf -` and make sure the output reads cleanly.
+To check after editing:
+
+```bash
+pip install pypdf pdfminer.six
+python scripts/ats_check.py cv.pdf
+```
+
+It also uses poppler's `pdftotext` when it's installed.
 
 ## Editing
 
