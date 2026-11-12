@@ -1,0 +1,274 @@
+% Ioannis Michadasis - CV
+% Compile with XeLaTeX (needed for the bundled Inter / Liberation Serif fonts):
+%   xelatex cv.tex        (run twice so "1 / 2" page totals resolve)
+% or with Tectonic:
+%   tectonic cv.tex
+\documentclass[a4paper]{article}
+
+% ---------- page ----------
+\usepackage[a4paper, top=12mm, left=15mm, right=15mm, bottom=18mm, footskip=9.5mm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+
+% ---------- fonts ----------
+\usepackage{fontspec}
+\setmainfont{Inter-Regular.otf}[
+  Path         = fonts/,
+  BoldFont     = Inter-Bold.otf,
+  RawFeature   = {-calt},
+]
+\newfontfamily\semibold{Inter-SemiBold.otf}[Path=fonts/, RawFeature={-calt}]
+\newfontfamily\cvserif{LiberationSerif-Bold.ttf}[Path=fonts/]
+\usepackage{fontawesome5}
+
+% ---------- colors (same values as the old CSS variables) ----------
+\usepackage{xcolor}
+\definecolor{ink}{HTML}{1C1C1A}
+\definecolor{muted}{HTML}{6A6A64}
+\definecolor{rulecol}{HTML}{D6D4CD}
+\definecolor{boxcol}{HTML}{F1F0EC}
+\definecolor{accent}{HTML}{1F4E6E}
+
+% ---------- misc ----------
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage[most]{tcolorbox}
+\usepackage{enumitem}
+\usepackage[normalem]{ulem}
+\usepackage{calc}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Ioannis Michadasis CV}, pdfauthor={Ioannis Michadasis}}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\frenchspacing
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\hbadness=10000
+\renewcommand{\ULthickness}{0.5pt}
+\setlength{\ULdepth}{1.7pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[L]{\fs{7.4}{9}\color{muted}\ifnum\value{page}=1 Projects and skills on page 2\else Last updated: November 7, 2026\fi}
+\fancyfoot[R]{\fs{7.4}{9}\color{muted}\thepage\ / \pageref*{LastPage}}
+
+% ---------- helpers ----------
+\newcommand{\fs}[2]{\fontsize{#1pt}{#2pt}\selectfont}
+\newcommand{\sep}{\ \textperiodcentered\ }
+
+% external link: accent, underlined, with a small north-east arrow
+\newcommand{\link}[2]{\href{#1}{\color{accent}\uline{#2}\kern0.6mm\scalebox{0.9}{↗}}}
+% mailto / tel link: no arrow
+\newcommand{\plainlink}[2]{\href{#1}{\color{accent}\uline{#2}}}
+
+% contact line with icon
+\newcommand{\contact}[2]{\makebox[3.2mm][c]{\color{accent}\fs{7.6}{9}#1}\hspace{2mm}#2}
+
+% rounded logo, 9mm square, contained
+\newcommand{\logo}[1]{%
+  \begin{tikzpicture}[baseline=(current bounding box.north)]
+    \clip[rounded corners=1.4mm] (0,0) rectangle (9mm,9mm);
+    \node[inner sep=0pt] at (4.5mm,4.5mm)
+      {\includegraphics[width=9mm,height=9mm,keepaspectratio]{icons/#1}};
+  \end{tikzpicture}}
+
+% section heading: letterspaced caps followed by a thin rule
+\newcommand{\cvsection}[1]{%
+  \par\addvspace{5.4mm}%
+  {\fs{8.4}{10}\bfseries\color{accent}\addfontfeatures{LetterSpace=16.7}\MakeUppercase{#1}}%
+  \hspace{3mm}{\color{rulecol}\leaders\hrule height 3.1pt depth -2.6pt\hfill}\par
+  \vspace{2.6mm}}
+
+% bullets inside entries
+\setlist[itemize]{
+  leftmargin=4mm, labelsep=2.2mm, topsep=1.2mm, itemsep=0.5mm, parsep=0pt, partopsep=0pt,
+  label={\color{muted}\fs{8}{9}\textbullet},
+  before={\fs{9.0}{13}}, after={\vspace{-1.2mm}},
+}
+
+% grey card
+\newtcolorbox{card}{
+  enhanced, colback=boxcol, colframe=boxcol, boxrule=0pt, arc=1mm,
+  left=3.8mm, right=3.8mm, top=4mm, bottom=4.2mm, boxsep=0pt,
+  before skip=0pt, after skip=2.6mm, halign=left,
+}
+
+% entry title line and sub-lines
+\newcommand{\entrytop}[2]{{\cvserif\fs{10.8}{14}#1}\hfill{\fs{8.1}{10}\color{muted}#2}\par}
+\newcommand{\sub}[1]{\vspace{0.2mm}{\fs{8.3}{12}\color{muted}#1}\par}
+
+% \begin{entry}{logo file or empty}{title}{date} ... \end{entry}
+\newif\ifentrylogo
+\newenvironment{entry}[3]{%
+  \if\relax\detokenize{#1}\relax\entrylogofalse\else\entrylogotrue\fi
+  \begin{card}%
+  \ifentrylogo
+    \begin{minipage}[t]{9mm}\vspace{0.4mm}\logo{#1}\end{minipage}\hspace{3.2mm}%
+    \begin{minipage}[t]{\linewidth-12.2mm}\vspace{0pt}%
+  \else
+    \begin{minipage}[t]{\linewidth}\vspace{0pt}%
+  \fi
+  \entrytop{#2}{#3}%
+}{%
+  \end{minipage}%
+  \end{card}%
+}
+
+\AtBeginDocument{\color{ink}\fs{9.6}{13.9}\raggedright}
+
+\begin{document}
+\fs{9.6}{13.9}
+
+% ======================= PAGE 1: SUMMARY, EDUCATION, EXPERIENCE =======================
+
+\begin{minipage}[b]{0.5\linewidth}
+  {\cvserif\fs{25}{25}Ioannis Michadasis}\par
+  \vspace{2mm}
+  {\semibold\fs{11}{13}\color{accent}Full Stack Developer}\par
+  \vspace{0.6mm}
+  {\fs{9}{11}\color{muted}Computer Science, University of Western Macedonia}
+\end{minipage}%
+\hfill
+\begin{minipage}[b]{0.48\linewidth}
+  \raggedleft\fs{8.4}{10}%
+  \setlength{\tabcolsep}{0pt}%
+  \renewcommand{\arraystretch}{1.25}%
+  \begin{tabular}[b]{l@{\hspace{5mm}}l}
+    \contact{\faEnvelope[solid]}{\plainlink{mailto:contact@michadasis.com}{contact@michadasis.com}} &
+    \contact{\faPhone}{\plainlink{tel:+306975852293}{+30 697 585 2293}} \\
+    \contact{\faGlobe}{\link{https://michadasis.com}{michadasis.com}} &
+    \contact{\faGithub}{\link{https://github.com/michadasis}{github.com/michadasis}} \\
+    \contact{\faLinkedin}{\link{https://www.linkedin.com/in/johnmichadasis/}{in/johnmichadasis}} & \\
+  \end{tabular}
+\end{minipage}\par
+\vspace{4mm}
+{\color{accent}\hrule height 1.4pt}
+\vspace{3.6mm}
+
+Full stack developer building web and mobile apps, and the APIs, databases, data pipelines and automation behind them, with React, Next.js, Node.js, FastAPI and PostgreSQL. I build software for my university's community and my city, from a Discord verification bot that has verified 106 students to an upcoming city bus app for Kastoria.\par
+
+\cvsection{Education}
+\begin{entry}{uowm.png}{BSc Computer Science, University of Western Macedonia}{2025 -- 2029 (expected)}
+  \sub{High School Diploma, 1st High School of Agios Athanasios, 2022 -- 2025, 17.6/20}
+  \sub{Languages: Greek (native), English (C2, Michigan ECPE)}
+\end{entry}
+
+\cvsection{Experience}
+\begin{entry}{opensourceuom.png}{Lead Developer (Volunteer), Open Source UoM}{May 2026 -- Present}
+  \sub{UniOS, a Linux distribution for Greek university students, and its apps\sep\link{https://github.com/open-source-uom}{open-source-uom on GitHub}}
+  \begin{itemize}
+    \item \link{https://github.com/open-source-uom/UniBackpack}{UniBackpack} (Qt6/C++): real apt and pacman install progress instead of a timer; data in JSON.
+    \item \link{https://github.com/open-source-uom/UniDesk}{UniDesk} (PyQt6): rebuilt the UI and structure of the distro's welcome app and wrote its docs.
+    \item Debian packaging and signed GitHub Actions releases to the Launchpad PPA for the UniOS tools.
+    \item Redesigned the \link{https://github.com/open-source-uom/UniOS-landing-page}{UniOS landing page}, fixed the Arch ISO build and made a Qt6 workshop demo app.
+  \end{itemize}
+\end{entry}
+
+\begin{entry}{kastoriadevcore.png}{Founder, Kastoria Dev Core}{Oct 2026 -- Present}
+  \sub{Student team building open source projects for Kastoria\sep\link{https://github.com/Kastoria-Dev-Core}{Kastoria-Dev-Core on GitHub}}
+  \begin{itemize}
+    \item Started and lead the team; our first project, the city bus app, is approved by Astika KTEL Kastorias.
+    \item Daily GitHub Actions sync of the operator's timetables and a Node.js announcements feed.
+  \end{itemize}
+\end{entry}
+
+\begin{entry}{}{Server Admin \& Developer, Πληροφορική UoWM Discord}{2026 -- Present}
+  \begin{itemize}
+    \item Started and run the CS students' Discord server (181 members) and built its verification bot.
+    \item Built a watcher that posts new exam schedules and timetables from cs.uowm.gr within minutes of upload.
+  \end{itemize}
+\end{entry}
+
+\begin{entry}{}{Freelance Web Developer, Nintri Tavern}{Jul 2026}
+  \sub{Paid client project\sep\link{https://nintritavern.com}{nintritavern.com}}
+  \begin{itemize}
+    \item Built a Greek/English site for a family tavern in Zakynthos: menu, gallery and contact sections.
+    \item Handled image optimisation, SEO, Google Search Console and deployment on the client's hosting.
+  \end{itemize}
+\end{entry}
+
+\begin{entry}{ieee.png}{Student Member, IEEE Student Branch UoWM Kastoria}{Dec 2025 -- May 2026}
+  \sub{\link{https://ieee.cs.uowm.gr/}{ieee.cs.uowm.gr}}
+  \begin{itemize}
+    \item Worked with a student team on \link{https://my.cs.uowm.gr}{my.cs.uowm.gr}, the CS department's student portal.
+    \item Added the weekly restaurant menu to the portal by reusing the PDF parser from my menu pipeline.
+  \end{itemize}
+\end{entry}
+
+\newpage
+% ======================= PAGE 2: PROJECTS, SKILLS =======================
+
+\begin{minipage}[c]{0.4\linewidth}
+  {\cvserif\fs{14}{16}Ioannis Michadasis}
+\end{minipage}%
+\hfill
+\begin{minipage}[c]{0.6\linewidth}
+  \raggedleft\fs{8.2}{10}%
+  \contact{\faEnvelope[solid]}{\plainlink{mailto:contact@michadasis.com}{contact@michadasis.com}}\hspace{4mm}%
+  \contact{\faGlobe}{\link{https://michadasis.com}{michadasis.com}}
+\end{minipage}\par
+\vspace{3mm}
+{\color{accent}\hrule height 1.4pt}
+
+\cvsection{Projects}
+\begin{entry}{kastoria-buses.png}{Kastoria City Buses}{Oct 2026 -- Present}
+  \sub{Kotlin, Jetpack Compose, Node.js, GitHub Actions\sep\link{https://github.com/Kastoria-Dev-Core/astiko-ktel-kastorias-app}{Source}\sep in development, approved by the operator}
+  \begin{itemize}
+    \item Native Android app with next departures for 209 stops and 18 lines, on each day's timetable.
+    \item Live bus positions from the drivers' phones, with timetable estimates as a fallback; works offline.
+  \end{itemize}
+\end{entry}
+
+\begin{entry}{}{UoWM Auth Discord Bot}{Sep 2026 -- Present}
+  \sub{Node.js, discord.js, MariaDB, Nodemailer\sep\link{https://github.com/michadasis/UoWM-Auth-Discord-Bot}{Source}\sep adapted from the MIT-licensed IEE Discord Bot}
+  \begin{itemize}
+    \item Has verified 106 of the server's 181 members with a one-time code sent to their university email.
+    \item Rate limits and a web admin panel with Discord OAuth for settings, role menus and stats, with tests.
+  \end{itemize}
+\end{entry}
+
+\begin{entry}{restaurant.png}{UoWM Menu Pipeline \& App}{Dec 2025 -- Sep 2026}
+  \sub{Node.js, pdf.js, PostgreSQL, React Native\sep\link{https://github.com/michadasis/uowm-restaurant-schedule-watcher}{Pipeline source}\sep\link{https://github.com/michadasis/generic-restaurant-app}{App source}\sep awaiting university approval}
+  \begin{itemize}
+    \item Daily Node.js job spots new menu PDFs by URL and content hash, then extracts and translates them.
+    \item Rebuilds the menu tables in PostgreSQL behind a React Native app with widgets and offline caching.
+  \end{itemize}
+\end{entry}
+
+\begin{entry}{staffos.png}{StaffOS}{Feb 2026 -- Aug 2026}
+  \sub{Next.js, TypeScript, Prisma, PostgreSQL\sep\link{https://staffos-chi.vercel.app}{Live demo}\sep\link{https://github.com/michadasis/staffos}{Source}}
+  \begin{itemize}
+    \item HR platform for employees, tasks, attendance, leave, payroll and messages, with JWT auth and 2FA.
+    \item Migrated the database from MySQL to PostgreSQL with Prisma and deployed it on Vercel.
+  \end{itemize}
+\end{entry}
+
+\begin{entry}{portfolio.png}{michadasis.com}{Dec 2025 -- Present}
+  \sub{Next.js, TypeScript, PHP, MariaDB, GitHub Actions\sep\link{https://michadasis.com}{Visit site}\sep\link{https://github.com/michadasis/portfolio-site}{Source}}
+  \begin{itemize}
+    \item Project and skill data served by a PHP API on MariaDB behind a static Next.js front end.
+    \item GitHub Actions builds, checks and uploads site and API over FTPS on each push to production.
+  \end{itemize}
+\end{entry}
+
+\begin{entry}{bac.png}{Blood Alcohol Level Calculator}{Nov 2025 -- Apr 2026}
+  \sub{Python, FastAPI, React\sep\link{https://alccalc.vercel.app}{Live demo}\sep\link{https://github.com/michadasis/BAC-counter-backend}{Backend}\sep\link{https://github.com/michadasis/BAC-Counter-frontend}{Frontend}}
+  \begin{itemize}
+    \item Standalone FastAPI service that applies the Widmark formula to weight, sex, drinks and time elapsed.
+    \item Consumed by a React front end, so the calculation can be tested and reused on its own.
+  \end{itemize}
+\end{entry}
+
+\cvsection{Skills}
+\newcommand{\skill}[2]{\makebox[34mm][l]{\color{muted}\strut#1}#2\par}
+\newcommand{\skillrule}{\vspace{1.2mm}{\color{rulecol}\hrule height 0.5pt}\vspace{1.2mm}}
+\skill{Languages}{TypeScript, JavaScript, Python, PHP, Kotlin, Java, C, C++, Bash}
+\skillrule
+\skill{Backend \& data}{Node.js, Express.js, FastAPI, PostgreSQL, MariaDB/MySQL, MongoDB, Prisma, JWT}
+\skillrule
+\skill{Front end \& mobile}{React, Next.js, React Native, Expo, Jetpack Compose, TailwindCSS, Qt6}
+\skillrule
+\skill{Infra \& tools}{Linux, Docker, GitHub Actions, Vercel, cron jobs, Debian packaging, Git}
+
+\end{document}
