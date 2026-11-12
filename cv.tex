@@ -12,12 +12,15 @@
 
 % ---------- fonts ----------
 \usepackage{fontspec}
+% Ligatures=TeXOff keeps ' as a straight apostrophe (as typed), so ATS keyword
+% matching sees "university's", not "university’s". Write en dashes directly: –
 \setmainfont{Inter-Regular.otf}[
   Path         = fonts/,
   BoldFont     = Inter-Bold.otf,
   RawFeature   = {-calt},
+  Ligatures    = TeXOff,
 ]
-\newfontfamily\semibold{Inter-SemiBold.otf}[Path=fonts/, RawFeature={-calt}]
+\newfontfamily\semibold{Inter-SemiBold.otf}[Path=fonts/, RawFeature={-calt}, Ligatures=TeXOff]
 \newfontfamily\cvserif{LiberationSerif-Bold.ttf}[Path=fonts/]
 
 % ---------- colors (same values as the old CSS variables) ----------
@@ -176,13 +179,13 @@
 Full stack developer building web and mobile apps, and the APIs, databases, data pipelines and automation behind them, with React, Next.js, Node.js, FastAPI and PostgreSQL. I build software for my university's community and my city, from a Discord verification bot that has verified 106 students to an upcoming city bus app for Kastoria.\par
 
 \cvsection{Education}
-\begin{entry}{uowm.png}{BSc Computer Science, University of Western Macedonia}{2025 -- 2029 (expected)}
-  \sub{High School Diploma, 1st High School of Agios Athanasios, 2022 -- 2025, 17\nk.6/20}
+\begin{entry}{uowm.png}{BSc Computer Science, University of Western Macedonia}{2025 – 2029 (expected)}
+  \sub{High School Diploma, 1st High School of Agios Athanasios, 2022 – 2025, 17\nk.6/20}
   \sub{Languages: Greek (native), English (C2, Michigan ECPE)}
 \end{entry}
 
 \cvsection{Experience}
-\begin{entry}{opensourceuom.png}{Lead Developer (Volunteer), Open Source UoM}{May 2026 -- Present}
+\begin{entry}{opensourceuom.png}{Lead Developer (Volunteer), Open Source UoM}{May 2026 – Present}
   \sub{UniOS, a Linux distribution for Greek university students, and its apps\sep\link{https://github.com/open-source-uom}{open-source-uom on GitHub}}
   \begin{itemize}
     \item \link{https://github.com/open-source-uom/UniBackpack}{UniBackpack} (Qt6/C++): real apt and pacman install progress instead of a timer; data in JSON.
@@ -192,7 +195,7 @@ Full stack developer building web and mobile apps, and the APIs, databases, data
   \end{itemize}
 \end{entry}
 
-\begin{entry}{kastoriadevcore.png}{Founder, Kastoria Dev Core}{Oct 2026 -- Present}
+\begin{entry}{kastoriadevcore.png}{Founder, Kastoria Dev Core}{Oct 2026 – Present}
   \sub{Student team building open source projects for Kastoria\sep\link{https://github.com/Kastoria-Dev-Core}{Kastoria-Dev-Core on GitHub}}
   \begin{itemize}
     \item Started and lead the team; our first project, the city bus app, is approved by Astika KTEL Kastorias.
@@ -200,7 +203,7 @@ Full stack developer building web and mobile apps, and the APIs, databases, data
   \end{itemize}
 \end{entry}
 
-\begin{entry}{}{Server Admin \& Developer, Πληροφορική UoWM Discord}{2026 -- Present}
+\begin{entry}{}{Server Admin \& Developer, Πληροφορική UoWM Discord}{2026 – Present}
   \begin{itemize}
     \item Started and run the CS students' Discord server (181 members) and built its verification bot.
     \item Built a watcher that posts new exam schedules and timetables from cs.uowm.gr within minutes of upload.
@@ -215,7 +218,7 @@ Full stack developer building web and mobile apps, and the APIs, databases, data
   \end{itemize}
 \end{entry}
 
-\begin{entry}{ieee.png}{Student Member, IEEE Student Branch UoWM Kastoria}{Dec 2025 -- May 2026}
+\begin{entry}{ieee.png}{Student Member, IEEE Student Branch UoWM Kastoria}{Dec 2025 – May 2026}
   \sub{\link{https://ieee.cs.uowm.gr/}{ieee.cs.uowm.gr}}
   \begin{itemize}
     \item Worked with a student team on \link{https://my.cs.uowm.gr}{my.cs.uowm.gr}, the CS department's student portal.
@@ -239,7 +242,7 @@ Full stack developer building web and mobile apps, and the APIs, databases, data
 {\color{accent}\hrule height 1.4pt}
 
 \cvsection{Projects}
-\begin{entry}{kastoria-buses.png}{Kastoria City Buses}{Oct 2026 -- Present}
+\begin{entry}{kastoria-buses.png}{Kastoria City Buses}{Oct 2026 – Present}
   \sub{Kotlin, Jetpack Compose, Node.js, GitHub Actions\sep\link{https://github.com/Kastoria-Dev-Core/astiko-ktel-kastorias-app}{Source}\sep in development, approved by the operator}
   \begin{itemize}
     \item Native Android app with next departures for 209 stops and 18 lines, on each day's timetable.
@@ -247,7 +250,7 @@ Full stack developer building web and mobile apps, and the APIs, databases, data
   \end{itemize}
 \end{entry}
 
-\begin{entry}{}{UoWM Auth Discord Bot}{Sep 2026 -- Present}
+\begin{entry}{}{UoWM Auth Discord Bot}{Sep 2026 – Present}
   \sub{Node.js, discord.js, MariaDB, Nodemailer\sep\link{https://github.com/michadasis/UoWM-Auth-Discord-Bot}{Source}\sep adapted from the MIT-licensed IEE Discord Bot}
   \begin{itemize}
     \item Has verified 106 of the server's 181 members with a one-time code sent to their university email.
@@ -255,7 +258,7 @@ Full stack developer building web and mobile apps, and the APIs, databases, data
   \end{itemize}
 \end{entry}
 
-\begin{entry}{restaurant.png}{UoWM Menu Pipeline \& App}{Dec 2025 -- Sep 2026}
+\begin{entry}{restaurant.png}{UoWM Menu Pipeline \& App}{Dec 2025 – Sep 2026}
   \sub{Node.js, pdf.js, PostgreSQL, React Native\sep\link{https://github.com/michadasis/uowm-restaurant-schedule-watcher}{Pipeline source}\sep\link{https://github.com/michadasis/generic-restaurant-app}{App source}\sep awaiting university approval}
   \begin{itemize}
     \item Daily Node.js job spots new menu PDFs by URL and content hash, then extracts and translates them.
@@ -263,7 +266,7 @@ Full stack developer building web and mobile apps, and the APIs, databases, data
   \end{itemize}
 \end{entry}
 
-\begin{entry}{staffos.png}{StaffOS}{Feb 2026 -- Aug 2026}
+\begin{entry}{staffos.png}{StaffOS}{Feb 2026 – Aug 2026}
   \sub{Next.js, TypeScript, Prisma, PostgreSQL\sep\link{https://staffos-chi.vercel.app}{Live demo}\sep\link{https://github.com/michadasis/staffos}{Source}}
   \begin{itemize}
     \item HR platform for employees, tasks, attendance, leave, payroll and messages, with JWT auth and 2FA.
@@ -271,7 +274,7 @@ Full stack developer building web and mobile apps, and the APIs, databases, data
   \end{itemize}
 \end{entry}
 
-\begin{entry}{portfolio.png}{michadasis.com}{Dec 2025 -- Present}
+\begin{entry}{portfolio.png}{michadasis.com}{Dec 2025 – Present}
   \sub{Next.js, TypeScript, PHP, MariaDB, GitHub Actions\sep\link{https://michadasis.com}{Visit site}\sep\link{https://github.com/michadasis/portfolio-site}{Source}}
   \begin{itemize}
     \item Project and skill data served by a PHP API on MariaDB behind a static Next.js front end.
@@ -279,7 +282,7 @@ Full stack developer building web and mobile apps, and the APIs, databases, data
   \end{itemize}
 \end{entry}
 
-\begin{entry}{bac.png}{Blood Alcohol Level Calculator}{Nov 2025 -- Apr 2026}
+\begin{entry}{bac.png}{Blood Alcohol Level Calculator}{Nov 2025 – Apr 2026}
   \sub{Python, FastAPI, React\sep\link{https://alccalc.vercel.app}{Live demo}\sep\link{https://github.com/michadasis/BAC-counter-backend}{Backend}\sep\link{https://github.com/michadasis/BAC-Counter-frontend}{Frontend}}
   \begin{itemize}
     \item Standalone FastAPI service that applies the Widmark formula to weight, sex, drinks and time elapsed.
