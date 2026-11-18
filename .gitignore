@@ -12,6 +12,7 @@
 *.xdv
 *.bbl
 *.blg
+*.exe
 
 # Python
 __pycache__/
